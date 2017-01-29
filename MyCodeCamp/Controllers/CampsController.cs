@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyCodeCamp.Data;
@@ -13,6 +15,8 @@ using MyCodeCamp.Models;
 
 namespace MyCodeCamp.Controllers
 {
+  [Authorize]
+  [EnableCors("AnyGet")]
   [Route("api/[controller]")]
   [ValidateModel]
   public class CampsController : BaseController
@@ -59,6 +63,8 @@ namespace MyCodeCamp.Controllers
       return BadRequest();
     }
 
+    [Authorize(Policy = "SuperUsers")]
+    [EnableCors("AllowConcreteWebsite")]
     [HttpPost]
     public async Task<IActionResult> Post([FromBody]CampModel model)
     {
