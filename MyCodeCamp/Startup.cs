@@ -79,6 +79,8 @@ namespace MyCodeCamp
             };
         });
 
+        services.AddMemoryCache();
+
         services.AddCors(cfg =>
         {
             cfg.AddPolicy("AnyGet", plcy =>
