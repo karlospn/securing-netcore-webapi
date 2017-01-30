@@ -16,6 +16,7 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.AspNetCore.Identity": "1.0.0",
     "AutoMapper.Extensions.Microsoft.DependencyInjection": "1.1.2",
+    "Microsoft.AspNetCore.Mvc.Versioning": "1.0.0",
     "MyCodeCamp.Data": {
       "target": "project"
     },

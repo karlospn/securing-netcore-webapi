@@ -10,12 +10,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using MyCodeCamp.Controllers;
 using MyCodeCamp.Data;
 using MyCodeCamp.Data.Entities;
+using MyCodeCamp.Models;
 using Newtonsoft.Json;
 
 namespace MyCodeCamp
@@ -91,6 +95,21 @@ namespace MyCodeCamp
                 plcy.WithOrigins("http://www.google.com");
             });
 
+        });
+
+        services.AddApiVersioning(cfg =>
+        {
+            cfg.DefaultApiVersion = new ApiVersion(1,1);
+            cfg.AssumeDefaultVersionWhenUnspecified = true;
+            cfg.ReportApiVersions = true;
+            cfg.ApiVersionReader = new HeaderApiVersionReader("ver");
+
+            cfg.Conventions.Controller<TalksController>()
+                .HasApiVersion(new ApiVersion(1, 0))
+                .HasApiVersion(new ApiVersion(1, 1))
+                .HasApiVersion(new ApiVersion(2, 0))
+                .Action(m => m.Post(default(string), default(int), default(TalkModel)))
+                .MapToApiVersion(new ApiVersion(2,0));
         });
 
         services.AddAuthorization(cfg => 
